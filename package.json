@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kimptgr/adventOfCode2021/issues"
   },
-  "homepage": "https://github.com/kimptgr/adventOfCode2021#readme"
+  "homepage": "https://github.com/kimptgr/adventOfCode2021#readme",
+  "devDependencies": {
+    "jest": "^30.0.5"
+  }
 }
