@@ -5,7 +5,7 @@ import { readLinesFromFile } from "../utils/readLinesFromFile.js";
  * @param {string} filePath relative path to the text file input
  * @returns {[string, Number][]} Array of [direction, value] tuples.
  */
-function parseCommands(filePath) {
+export function parseCommands(filePath) {
   const lines = readLinesFromFile(filePath);
   return lines.map((line) => {
     const [direction, value] = line.split(" ");
@@ -18,7 +18,7 @@ function parseCommands(filePath) {
  * @param {[string, Number][]} Array of [direction, value] tuples.
  * @returns {{ x: number, y: number }} Final horizontal and depth positions.
  */
-function followCommands(commands) {
+export function followCommands(commands) {
   let x = 0,
     y = 0;
   commands.forEach(([direction, value]) => {
