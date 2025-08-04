@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug ESM",
+      "program": "day1/solutionday1.js",
+      "runtimeArgs": ["--experimental-import-meta-resolve"],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
