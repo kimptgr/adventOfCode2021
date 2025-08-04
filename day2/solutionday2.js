@@ -15,22 +15,25 @@ export function parseCommands(filePath) {
 
 /**
  * Follow instructions to return final coordinates.
- * @param {[string, Number][]} Array of [direction, value] tuples.
+ * @param {[string, Number][]} commands Array of [direction, value] tuples.
+ * @param {bool} readManualSkill True if manuel is reading
  * @returns {{ x: number, y: number }} Final horizontal and depth positions.
  */
-export function followCommands(commands) {
+export function followCommands(commands, readManualSkill) {
   let x = 0,
-    y = 0;
+    y = 0,
+    aim = 0;
   commands.forEach(([direction, value]) => {
     switch (direction) {
       case "forward":
         x += value;
+        if (readManualSkill) y += aim * value;
         break;
       case "down":
-        y += value;
+        readManualSkill ? (aim += value) : (y += value);
         break;
       case "up":
-        y -= value;
+        readManualSkill ? (aim -= value) : (y -= value);
         break;
     }
   });
@@ -41,13 +44,16 @@ export function followCommands(commands) {
  * Resolve part one of the problem Advent of Code Day 2.
  * @returns {string} Result message.
  */
-export function resolvePartOne() {
-  const comands = parseCommands("day2/input.txt");
-  const { x, y } = followCommands(comands);
+export function resolve(readManualSkill) {
+  const commands = parseCommands("day2/input.txt");
+  const { x, y } = followCommands(commands, readManualSkill);
   const result = x * y;
-  const message = `The result of the final depth * final horizontal position = ${result}`;
+  const message = `The result of the final depth * final horizontal position ${
+    readManualSkill ? "after" : "without"
+  } reading manual = ${result}`;
   console.log(message);
   return message;
 }
 
-resolvePartOne();
+resolve(false);
+resolve(true);
