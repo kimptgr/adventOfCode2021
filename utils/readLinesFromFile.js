@@ -9,7 +9,6 @@ import { readFileSync } from "fs";
  * @returns {string[]} Array of lines from the file.
  */
 export function readLinesFromFile(inputPath) {
-  console.log(inputPath);
   try {
     const input = readFileSync(inputPath, "utf-8");
     return input.trim().split(/\r?\n/);

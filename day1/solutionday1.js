@@ -1,22 +1,6 @@
 "use strict";
 
-import { readFileSync } from "fs";
-
-/**
- * Reads a text file and returns an array of lines
- *
- * @param {string} inputPath Relative path to the input file.
- * @returns {string[]} Array of lines from the file.
- */
-function readLinesFromFile(inputPath) {
-  try {
-    const input = readFileSync(new URL(inputPath, import.meta.url), "utf-8");
-    return input.trim().split(/\r?\n/);
-  } catch (error) {
-    console.error(`Error reading file ${inputPath}: `, error);
-    return [];
-  }
-}
+import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
 /**
  * Counts how many times a number in the array is strictly greater than the previous number.
@@ -39,7 +23,7 @@ export function countIncreased(depths) {
  * @returns {string} Result message.
  */
 export function resolvePartOne() {
-  const lines = readLinesFromFile("input.txt");
+  const lines = readLinesFromFile("day1/input.txt");
   const count = countIncreased(lines);
   const message = `Number of measurements larger than the previous one: ${count}`;
   console.log(message);
@@ -77,7 +61,7 @@ export function getSlidingWindowsSums(depths) {
  * @returns {string} Result message.
  */
 export function resolvePartTwo() {
-  const lines = readLinesFromFile("input.txt");
+  const lines = readLinesFromFile("day1/input.txt");
   const measurements = getSlidingWindowsSums(lines);
   const count = countIncreased(measurements);
   const message = `Number of sums in a three-measurement sliding window larger than the previous one: ${count}`;
