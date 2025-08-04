@@ -1,7 +1,8 @@
+"use-strict";
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
 /**
- * Read an text file and translates each line into a movement command
+ * Read a text file and translates each line into a movement command
  * @param {string} filePath relative path to the text file input
  * @returns {[string, Number][]} Array of [direction, value] tuples.
  */
