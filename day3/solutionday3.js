@@ -1,5 +1,3 @@
-"use-strict";
-
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
 /**
@@ -15,20 +13,34 @@ export function parseBinaryFile(filePath) {
 }
 /**
  * Count every bit by position
- * @param {number[][]} bytes 2D array of bits
+ * @param {number[][]} bits 2D array of bits
+ * @param {number} index position where bit should be counted
  * @returns  {[number[], number[]]} Arrays of counts: [onesCount, zerosCount]
  */
-export function countBytesPerPosition(bytes) {
-  let onesCount = Array(bytes[0].length).fill(0);
-  let zerosCount = Array(bytes[0].length).fill(0);
+export function countBitsPerPosition(bits, index) {
+  if (index === undefined) {
+    const onesCount = Array(bits[0].length).fill(0);
+    const zerosCount = Array(bits[0].length).fill(0);
 
-  bytes.forEach((line) => {
-    line.forEach((bit, index) => {
-      bit ? onesCount[index]++ : zerosCount[index]++;
+    bits.forEach((line) => {
+      line.forEach((bit, i) => {
+        bit ? onesCount[i]++ : zerosCount[i]++;
+      });
     });
-  });
 
-  return [onesCount, zerosCount];
+    return [onesCount, zerosCount];
+  } else {
+    let onesCount = 0;
+    let zerosCount = 0;
+
+    bits.forEach((line) => {
+      if (index < line.length) {
+        line[index] ? onesCount++ : zerosCount++;
+      }
+    });
+
+    return [onesCount, zerosCount];
+  }
 }
 
 /**
@@ -56,13 +68,13 @@ export function binaryArrayToDecimal(arrayBase2) {
 }
 
 /**
- * Runs part one of the Day 3 puzzle: computes the submarine's power consumption
+ * Solve part one of the Day 3 puzzle: computes the submarine's power consumption
  * @param {string} inputPath Path to input file
- * @returns {string} Message describing the result
+ * @returns {number} Calcul of power comnsuption
  */
 export function resolvePartOne(inputPath) {
-  const bytes = parseBinaryFile(inputPath);
-  const [onesCount, zerosCount] = countBytesPerPosition(bytes);
+  const bits = parseBinaryFile(inputPath);
+  const [onesCount, zerosCount] = countBitsPerPosition(bits);
   const [gammaRateArray, epsilonRateArray] = calculateRates([
     onesCount,
     zerosCount,
@@ -73,8 +85,44 @@ export function resolvePartOne(inputPath) {
 
   const message = `The power of consumption of the submarine is ${consumption}`;
   console.log(message);
-  return message;
+  return consumption;
+}
+
+/**
+ * Calculates oxygen genarator rating and C02 scrubber rating
+ * @param {number[][]} bits Array of bit
+ * @param {boolean} preferMostCommon Choose bit to keep (true for oxygen rating, false to c02 rating)
+ * @returns {number[]} The final number (into an array of bits)
+ */
+export function calculateOxygenCO2Rating(bits, preferMostCommon) {
+  const length = bits[0].length;
+
+  for (let i = 0; i < length; i++) {
+    const [onesCount, zerosCount] = countBitsPerPosition(bits, i);
+    if (bits.length === 1) return bits[0];
+    onesCount >= zerosCount
+      ? (bits = bits.filter((bit) => bit[i] === Number(preferMostCommon)))
+      : (bits = bits.filter((bit) => bit[i] === Number(!preferMostCommon)));
+  }
+  return bits[0];
+}
+
+/**
+ * Solve part two of the Day 3 puzzle: calculates the life support rating
+ * @param {string} inputPath Path to input file
+ * @returns {number} oxygen rating multiplied by co2 rating
+ */
+export function resolvePartTwo(inputPath) {
+  const bits = parseBinaryFile(inputPath);
+  const oxygenRatingInBase2 = calculateOxygenCO2Rating(bits, true);
+  const oxygenRatingDecimal = binaryArrayToDecimal(oxygenRatingInBase2);
+  const C02RatingInBase2 = calculateOxygenCO2Rating(bits, false);
+  const C02RatingDecimal = binaryArrayToDecimal(C02RatingInBase2);
+  const lifeSupportRating = oxygenRatingDecimal * C02RatingDecimal;
+  const message = `The life support rating of the submarine is : ${lifeSupportRating}`;
+  console.log(message);
+  return lifeSupportRating;
 }
 
 resolvePartOne("day3/input.txt");
-//resolvePartOne("test/testinputday3.txt");
+resolvePartTwo("day3/input.txt");
