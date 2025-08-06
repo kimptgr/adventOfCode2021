@@ -1,15 +1,16 @@
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
 /**
- * Reads a file and parses each line into an array of bits
- * @param {string} filePath relative path to the input file
+ * Converts binary string lines to arrays of 0s and 1s
+ * @param {string[]} lines
  * @returns {number[][]} Array of bits
  */
-export function parseBinaryFile(filePath) {
-  const lines = readLinesFromFile(filePath);
-  return lines.map((line) => {
-    return line.split("").map(Number);
-  });
+export function parseBinaryLines(lines) {
+  return lines
+    .filter((line) => /^[01]+$/.test(line))
+    .map((line) => {
+      return line.split("").map(Number);
+    });
 }
 /**
  * Count every bit by position
@@ -73,7 +74,7 @@ export function binaryArrayToDecimal(arrayBase2) {
  * @returns {number} Calcul of power comnsuption
  */
 export function resolvePartOne(inputPath) {
-  const bits = parseBinaryFile(inputPath);
+  const bits = parseBinaryLines(readLinesFromFile(inputPath));
   const [onesCount, zerosCount] = countBitsPerPosition(bits);
   const [gammaRateArray, epsilonRateArray] = calculateRates([
     onesCount,
@@ -83,7 +84,7 @@ export function resolvePartOne(inputPath) {
   const epsilonRate = binaryArrayToDecimal(epsilonRateArray);
   const consumption = gammaRate * epsilonRate;
 
-  const message = `The power of consumption of the submarine is ${consumption}`;
+  const message = `Submarine power consumption: ${consumption}`;
   console.log(message);
   return consumption;
 }
@@ -113,16 +114,18 @@ export function calculateOxygenCO2Rating(bits, preferMostCommon) {
  * @returns {number} oxygen rating multiplied by co2 rating
  */
 export function resolvePartTwo(inputPath) {
-  const bits = parseBinaryFile(inputPath);
+  const bits = parseBinaryLines(readLinesFromFile(inputPath));
   const oxygenRatingInBase2 = calculateOxygenCO2Rating(bits, true);
   const oxygenRatingDecimal = binaryArrayToDecimal(oxygenRatingInBase2);
   const C02RatingInBase2 = calculateOxygenCO2Rating(bits, false);
   const C02RatingDecimal = binaryArrayToDecimal(C02RatingInBase2);
   const lifeSupportRating = oxygenRatingDecimal * C02RatingDecimal;
-  const message = `The life support rating of the submarine is : ${lifeSupportRating}`;
+  const message = `Submarine life support rating: ${lifeSupportRating}`;
   console.log(message);
   return lifeSupportRating;
 }
 
-resolvePartOne("day3/input.txt");
-resolvePartTwo("day3/input.txt");
+if (import.meta.main) {
+  resolvePartOne("day3/input.txt");
+  resolvePartTwo("day3/input.txt");
+}
