@@ -7,7 +7,7 @@ import { readLinesFromFile } from "../utils/readLinesFromFile.js";
  */
 export function parseBinaryLines(lines) {
   return lines
-    .filter((line) => /^[01]+$/.test(line))
+    .filter((line) => typeof line === "string" && /^[01]+$/.test(line))
     .map((line) => {
       return line.split("").map(Number);
     });
