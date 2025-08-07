@@ -4,7 +4,7 @@
       "type": "node",
       "request": "launch",
       "name": "Debug ESM",
-      "program": "day1/solutionday1.js",
+      "program": "index.js",
       "runtimeArgs": ["--experimental-import-meta-resolve"],
       "env": {
         "NODE_ENV": "development"

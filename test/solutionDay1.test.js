@@ -3,7 +3,7 @@ import {
   getSlidingWindowsSums,
   resolvePartOne,
   resolvePartTwo,
-} from "../day1/solutionday1.js";
+} from "../day1/solutionDay1.js";
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 import { toNumberArray } from "../utils/toNumberArray.js";
 

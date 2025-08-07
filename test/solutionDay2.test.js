@@ -2,7 +2,7 @@ import {
   parseCommands,
   followCommands,
   resolve,
-} from "../day2/solutionday2.js";
+} from "../day2/solutionDay2.js";
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
 const adventOfCodeExamplePath = "test/testInputDay2.txt";
