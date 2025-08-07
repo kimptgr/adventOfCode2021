@@ -4,6 +4,8 @@ import {
   calculateRates,
   binaryArrayToDecimal,
   calculateOxygenCO2Rating,
+  resolvePartOne,
+  resolvePartTwo,
 } from "../day3/solutionDay3.js";
 import { readLinesFromFile } from "../utils/readLinesFromFile.js";
 
@@ -81,6 +83,21 @@ test("converts binary array to decimal", () => {
 
 //##### Tests for resolvePartOne
 
+test("calculates results to part one from bits advent of code example", () => {
+  expect(resolvePartOne(adventOfCodeExampleBits)).toBe(198);
+});
+
 //##### Tests for calculateOxygenCO2Rating
 
+test("calculate oxygen rating", () => {
+  const result = [0, 1, 0, 1, 0];
+  expect(
+    calculateOxygenCO2Rating(adventOfCodeExampleBits, false)
+  ).toStrictEqual(result);
+});
+
 //##### Tests for resolvePartTwo
+
+test("calculates results to part one from bits advent of code example", () => {
+  expect(resolvePartTwo(adventOfCodeExampleBits)).toBe(230);
+});
