@@ -23,7 +23,7 @@ export function parseCommands(lines) {
 /**
  * Follow instructions to return final coordinates
  * @param {[string, Number][]} commands Array of [direction, value]
- * @param {bool} readManualSkill True if manuel is reading
+ * @param {boolean} readManualSkill True if manuel is reading
  * @returns {{ x: number, y: number }} Final horizontal and depth positions
  */
 export function followCommands(commands, readManualSkill) {
