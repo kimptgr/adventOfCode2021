@@ -1,3 +1,4 @@
+import { readLinesFromFile } from "./utils/readLinesFromFile.js";
 import {
   resolvePartOne as day1ResolvePartOne,
   resolvePartTwo as day1ResolvePartTwo,
@@ -6,11 +7,14 @@ import { resolve as day2Resolve } from "./day2/solutionday2.js";
 import {
   resolvePartOne as day3ResolvePartOne,
   resolvePartTwo as day3ResolvePartTwo,
-} from "./day3/solutionday3.js";
+  parseBinaryLines,
+  INPUT_PATH as INPUT_PATH_DAY_3,
+} from "./day3/solutionDay3.js";
 
 day1ResolvePartOne();
 day1ResolvePartTwo();
 day2Resolve(false);
 day2Resolve(true);
-day3ResolvePartOne("day3/input.txt");
-day3ResolvePartTwo("day3/input.txt");
+const bits = parseBinaryLines(readLinesFromFile(INPUT_PATH_DAY_3));
+day3ResolvePartOne(bits);
+day3ResolvePartTwo(bits);
