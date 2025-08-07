@@ -11,8 +11,6 @@ const AdventOfCodeExample = toNumberArray(
   readLinesFromFile("test/testInputDay1.txt")
 );
 
-//##### Tests for toNumberArray
-
 //##### Tests for countIncreased
 
 test("returns 0 for an empty array or a single 2 element", () => {

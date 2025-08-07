@@ -75,7 +75,8 @@ export function binaryArrayToDecimal(arrayBase2) {
  * @param {string} inputPath Path to input file
  * @returns {number} Calcul of power comnsuption
  */
-export function resolvePartOne(bits) {
+export function resolvePartOne(injectedBits) {
+  const bits = injectedBits ?? parseBinaryLines(readLinesFromFile(INPUT_PATH));
   const [onesCount, zerosCount] = countBitsPerPosition(bits);
   const [gammaRateArray, epsilonRateArray] = calculateRates([
     onesCount,
@@ -114,7 +115,8 @@ export function calculateOxygenCO2Rating(bits, preferMostCommon) {
  * @param {string} inputPath Path to input file
  * @returns {number} oxygen rating multiplied by co2 rating
  */
-export function resolvePartTwo(bits) {
+export function resolvePartTwo(injectedBits) {
+  const bits = injectedBits ?? parseBinaryLines(readLinesFromFile(INPUT_PATH));
   const oxygenRatingInBase2 = calculateOxygenCO2Rating(bits, true);
   const oxygenRatingDecimal = binaryArrayToDecimal(oxygenRatingInBase2);
   const C02RatingInBase2 = calculateOxygenCO2Rating(bits, false);

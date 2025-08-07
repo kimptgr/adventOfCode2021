@@ -18,15 +18,15 @@ test("returns [] when lines are empty or invalid", () => {
   const input = [
     "forward 5",
     "down banana",
-    "left 3", // invalid direction
-    "up", // missing value
-    "forward -3", // (accepté ici, à toi de décider)
-    "forward 2 more", // trop d'arguments
+    "left 3",
+    "up",
+    "forward -3",
+    "forward 2 more",
   ];
 
   expect(parseCommands(input)).toStrictEqual([
     ["forward", 5],
-    ["forward", -3], // si tu acceptes les négatifs
+    ["forward", -3],
   ]);
 });
 
