@@ -32,6 +32,10 @@ test("filters out non-binary strings", () => {
   expect(parseBinaryLines(lines)).toStrictEqual(bits);
 });
 
+test("returns empty array when lines are empty", () => {
+  expect(parseBinaryLines([])).toStrictEqual([]);
+});
+
 //##### Tests for countBitsPerPosition
 
 test("returns bits per column", () => {
@@ -53,6 +57,10 @@ test("counts bits for a given position", () => {
   ]);
 });
 
+test("returns empty array when bits are empty", () => {
+  expect(countBitsPerPosition([])).toStrictEqual([[], []]);
+});
+
 //##### Tests for calculateRates
 test("computes gamma and epsilon rate arrays", () => {
   const [onesCount, zerosCount] = [
@@ -69,9 +77,10 @@ test("computes gamma and epsilon rate arrays", () => {
   ]);
 });
 
-test("return null if lengths isn't equal or empty", () => {
-  expect(calculateRates([[], [1, 2]])).toBeNull();
-  expect(calculateRates([[1], [2, 3]])).toBeNull();
+test("return empty arrays if lengths isn't equal or empty", () => {
+  expect(calculateRates([[], [1, 2]])).toStrictEqual([[], []]);
+  expect(calculateRates([[1], [2, 3]])).toStrictEqual([[], []]);
+  expect(calculateRates([[], []])).toStrictEqual([[], []]);
 });
 
 //##### Tests for binaryArrayToDecimal
@@ -81,10 +90,19 @@ test("converts binary array to decimal", () => {
   expect(binaryArrayToDecimal([0, 1, 0, 1, 0])).toBe(10);
 });
 
+test("returns 0 if receive empty array or nothing", () => {
+  expect(binaryArrayToDecimal([])).toBe(0);
+  expect(binaryArrayToDecimal()).toBe(0);
+});
+
 //##### Tests for resolvePartOne
 
 test("calculates results to part one from bits advent of code example", () => {
   expect(resolvePartOne(adventOfCodeExampleBits)).toBe(198);
+});
+
+test("returns 0 with empty bits", () => {
+  expect(resolvePartOne([])).toBe(0);
 });
 
 //##### Tests for calculateOxygenCO2Rating
@@ -96,8 +114,26 @@ test("calculate oxygen rating", () => {
   ).toStrictEqual(result);
 });
 
+test("returns the only entry if bits has one line", () => {
+  expect(calculateOxygenCO2Rating([[1, 0, 1]], true)).toStrictEqual([1, 0, 1]);
+});
+
+test("returns the correct bit in case of equality", () => {
+  const bits = [[1], [0]];
+  expect(calculateOxygenCO2Rating(bits, false)).toStrictEqual([0]);
+  expect(calculateOxygenCO2Rating(bits, true)).toStrictEqual([1]);
+});
+
+test("returns [] if receive []", () => {
+  expect(calculateOxygenCO2Rating([], true)).toStrictEqual([]);
+});
+
 //##### Tests for resolvePartTwo
 
 test("calculates results to part one from bits advent of code example", () => {
   expect(resolvePartTwo(adventOfCodeExampleBits)).toBe(230);
+});
+
+test("returns 0 with empty bits", () => {
+  expect(resolvePartTwo([])).toBe(0);
 });

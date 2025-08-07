@@ -21,6 +21,7 @@ export function parseBinaryLines(lines) {
  * @returns  {[number[], number[]]} Arrays of counts: [onesCount, zerosCount]
  */
 export function countBitsPerPosition(bits, index) {
+  if (!Array.isArray(bits) || bits.length < 1) return [[], []];
   if (index === undefined) {
     const onesCount = Array(bits[0].length).fill(0);
     const zerosCount = Array(bits[0].length).fill(0);
@@ -53,7 +54,7 @@ export function countBitsPerPosition(bits, index) {
  */
 export function calculateRates([onesCount, zerosCount]) {
   if (onesCount.length === 0 || onesCount.length != zerosCount.length)
-    return null;
+    return [[], []];
 
   return [
     onesCount.map((count, index) => Number(count > zerosCount[index])),
@@ -67,13 +68,14 @@ export function calculateRates([onesCount, zerosCount]) {
  * @returns {number} Decimal equivalent
  */
 export function binaryArrayToDecimal(arrayBase2) {
+  if (!Array.isArray(arrayBase2) || arrayBase2.length === 0) return 0;
   return parseInt(arrayBase2.join(""), 2);
 }
 
 /**
  * Solve part one of the Day 3 puzzle: computes the submarine's power consumption
- * @param {string} inputPath Path to input file
- * @returns {number} Calcul of power comnsuption
+ * @param {number[][]} [injectedBits] Optional pre-parsed bits to use instead of reading file
+ * @returns {number} Calculated power consumption
  */
 export function resolvePartOne(injectedBits) {
   const bits = injectedBits ?? parseBinaryLines(readLinesFromFile(INPUT_PATH));
@@ -92,12 +94,13 @@ export function resolvePartOne(injectedBits) {
 }
 
 /**
- * Calculates oxygen genarator rating and C02 scrubber rating
+ * Calculates oxygen generator rating and C02 scrubber rating
  * @param {number[][]} bits Array of bit
- * @param {boolean} preferMostCommon Choose bit to keep (true for oxygen rating, false to c02 rating)
- * @returns {number[]} The final number (into an array of bits)
+ * @param {boolean} preferMostCommon Choose bit to keep (true for oxygen rating, false to CO2 rating)
+ * @returns {number[]} The remaining binary number after filtering
  */
 export function calculateOxygenCO2Rating(bits, preferMostCommon) {
+  if (!Array.isArray(bits) || bits.length < 1) return [];
   const length = bits[0].length;
 
   for (let i = 0; i < length; i++) {
@@ -112,7 +115,7 @@ export function calculateOxygenCO2Rating(bits, preferMostCommon) {
 
 /**
  * Solve part two of the Day 3 puzzle: calculates the life support rating
- * @param {string} inputPath Path to input file
+ * @param {number[][]} [injectedBits] Optional pre-parsed bits to use instead of reading file
  * @returns {number} oxygen rating multiplied by co2 rating
  */
 export function resolvePartTwo(injectedBits) {
